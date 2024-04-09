@@ -1,0 +1,101 @@
+create database IMDB;
+
+Use IMDB;
+CREATE TABLE Movie (
+ Mov_id int primary key,
+ Film_name varchar (50),
+ Media varchar(50),
+  gen_id int,
+foreign key (gen_id) references genre(gen_id)
+);
+
+create table genre(
+	gen_id int primary key,
+    genre_name varchar(50)
+);
+
+create table Artist(
+	Art_id int primary key,
+    Artist_name varchar(50),
+    Skills varchar(50)
+);
+
+create table Review(
+	Rev_id int primary key,
+     Mov_id int,
+     foreign key (Mov_id) references Movie(Mov_id) 
+);
+
+
+create table Role(
+	Role_id int primary key,
+    Art_id int,
+     foreign key (Art_id) references Artist(Art_id) 
+);
+
+insert into Movie(Mov_id,Film_name, Media,gen_id)
+values 
+(1, 'The gentlemen', 'Video', 101),
+(2, 'War', 'Video', 102),
+(3, 'RRR', 'Video', 101),
+(4, 'Pushpa','Video', 103),
+(5, 'Jersey','Video', 101);
+
+insert into genre (gen_id,  genre_name)
+values 
+(101, 'Action'),
+(102, 'Comedy'),
+(103, 'Romantic');
+
+insert into Artist(Art_id,Artist_name,Skills)
+values 
+(11, 'Salman', 'Actor'),
+(12, 'Priyanka', 'Singer'),
+(13, 'Ranvir', 'Actor'),
+(14, 'Pooja','Singer');
+
+insert into Role (Role_id, Art_id)
+values 
+(100,11),
+(200,13),
+(300,12),
+(400,14 ),
+(500,12);
+
+insert into Review(Rev_id,Mov_id)
+values 
+(111,1),
+(222,2),
+(333,1),
+(444,4),
+(555,2);
+
+select * from Movie;
+select * from genre;
+select * from Artist;
+select * from Review;
+select * from Role;
+
+
+
+update Movie set Media='Full Video' where Mov_id=5;
+update Movie set Media='Full Video' where Mov_id=3;
+
+select Film_name,Media from Movie;
+
+
+select Movie.Film_name, genre.gen_id
+from Movie
+inner join genre on Movie.gen_id = genre.gen_id;
+
+use IMDB;
+select * from Review;
+
+ALTER TABLE Review
+ADD COLUMN stars VARCHAR(10);
+
+select Artist_name,Skills from Artist;
+
+select Artist.*,Role.*
+from Artist Inner Join Role
+ON Artist.Art_id=Role.Art_id;
